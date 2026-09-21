@@ -846,7 +846,7 @@
     });
   });
 
-    /* ---------- RSVP → Google Sheet via Apps Script ---------- */
+   /* ---------- RSVP → Google Sheet via Apps Script ---------- */
   var form = document.getElementById('rsvpForm');
 
   if (form) {
@@ -864,7 +864,7 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      if (RSVP_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbwhGhJyuMfKfQEM_8hFWYGS1syDX5CrlV4mzOaBJP5PKt6XrQ2OXqom7FHpLat69HpD/exec') {
+      if (!RSVP_SCRIPT_URL) {
         if (errorEl) {
           errorEl.textContent = 'RSVP service is not configured yet.';
           errorEl.style.display = 'block';
@@ -919,7 +919,6 @@
       });
     });
   }
-
   var musicToggle = document.getElementById('musicToggle');
   var iconOn = document.getElementById('musicIconOn');
   var iconOff = document.getElementById('musicIconOff');
