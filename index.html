@@ -847,69 +847,67 @@
   });
 
   /* ---------- RSVP → Google Form ---------- */
- var form = document.getElementById('rsvpForm');
+var form = document.getElementById('rsvpForm');
 
   if (form) {
     var success = document.getElementById('rsvpSuccess');
     var errorEl = document.getElementById('rsvpError');
-    var form = document.getElementById('rsvpForm');
+    var submitBtn = document.getElementById('rsvpSubmit');
 
-if (form) {
-  var success = document.getElementById('rsvpSuccess');
-  var errorEl = document.getElementById('rsvpError');
-  var submitBtn = document.getElementById('rsvpSubmit');
+    var GOOGLE_FORM_URL =
+      'https://docs.google.com/forms/d/e/1FAIpQLSeKzdFqBKo7XMXQRZjXST40XmCj5ZO6NfLH-t1x8WMX57YQtQ/formResponse';
 
-  var GOOGLE_FORM_URL =
-    'https://docs.google.com/forms/d/e/1FAIpQLSeKzdFqBKo7XMXQRZjXST40XmCj5ZO6NfLH-t1x8WMX57YQtQ/formResponse';
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-    }
-    if (errorEl) errorEl.style.display = 'none';
-
-    var body = new URLSearchParams();
-    body.append('entry.163615118', document.getElementById('rsvpName').value || '');
-    body.append('entry.1523462212', document.getElementById('rsvpPhone').value || '');
-    body.append('entry.1444594728', document.getElementById('rsvpAdults').value || '');
-    body.append('entry.1505394192', document.getElementById('rsvpEventDay').value || '');
-    body.append('entry.1572802518', document.getElementById('rsvpMessage').value || '');
-
-    fetch(GOOGLE_FORM_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      body: body.toString(),
-      keepalive: true
-    })
-    .then(function() {
-      form.style.display = 'none';
-      if (success) success.classList.add('is-visible');
-
-      if (typeof createConfetti === 'function') {
-        createConfetti();
-        setTimeout(createConfetti, 300);
-        setTimeout(createConfetti, 600);
-      }
-    })
-    .catch(function(err) {
-      console.error('RSVP submission failed:', err);
       if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send RSVP';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
       }
-      if (errorEl) {
-        errorEl.textContent = 'Something went wrong. Please try again.';
-        errorEl.style.display = 'block';
-      }
+      if (errorEl) errorEl.style.display = 'none';
+
+      var body = new URLSearchParams();
+      body.append('entry.163615118', document.getElementById('rsvpName').value || '');
+      body.append('entry.1523462212', document.getElementById('rsvpPhone').value || '');
+      body.append('entry.1444594728', document.getElementById('rsvpAdults').value || '');
+      body.append('entry.1505394192', document.getElementById('rsvpEventDay').value || '');
+      body.append('entry.1572802518', document.getElementById('rsvpMessage').value || '');
+
+      fetch(GOOGLE_FORM_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: body.toString(),
+        keepalive: true
+      })
+      .then(function() {
+        form.style.display = 'none';
+        if (success) success.classList.add('is-visible');
+
+        if (typeof createConfetti === 'function') {
+          createConfetti();
+          setTimeout(createConfetti, 300);
+          setTimeout(createConfetti, 600);
+        }
+      })
+      .catch(function(err) {
+        console.error('RSVP submission failed:', err);
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send RSVP';
+        }
+
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.style.display = 'block';
+        }
+      });
     });
-  });
-}
+  }
+
 
   var musicToggle = document.getElementById('musicToggle');
   var iconOn = document.getElementById('musicIconOn');
